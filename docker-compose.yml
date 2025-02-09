@@ -15,8 +15,21 @@ services:
     networks:
       - nextwitch-backend
 
+  redis:
+    container_name: nextwitch-redis
+    image: redis:alpine
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    networks:
+      - nextwitch-backend
+
 volumes:
   postgres_data:
+  redis_data:
 
 networks:
   nextwitch-backend:
