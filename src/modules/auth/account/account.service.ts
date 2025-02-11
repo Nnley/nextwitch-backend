@@ -7,8 +7,14 @@ import { CreateUserInput } from './inputs/create-user.input'
 export class AccountService {
   public constructor(private readonly prismaService: PrismaService) {}
 
-  public async findAll() {
-    return await this.prismaService.user.findMany()
+  public async me(id: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    return user
   }
 
   public async create(input: CreateUserInput) {
