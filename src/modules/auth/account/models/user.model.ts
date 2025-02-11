@@ -15,6 +15,15 @@ export class UserModel extends BaseType {
   @Field(() => String)
   displayName: string
 
+  @Field(() => Boolean)
+  isVerified: boolean
+
+  @Field(() => Boolean)
+  isDeleted: boolean
+
+  @Field(() => Boolean)
+  isEmailVerified: boolean
+
   @Field(() => String, { nullable: true })
   avatarUrl: string | null
 

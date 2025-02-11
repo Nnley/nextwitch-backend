@@ -18,11 +18,11 @@ exports.$Enums = {}
 
 /**
  * Prisma Client JS version: 6.3.1
- * Query Engine version: acc0b9dd43eb689cbd20c9470515d719db10d0b0
+ * Query Engine version: bf0e5e8a04cada8225617067eaa03d041e2bba36
  */
 Prisma.prismaVersion = {
   client: "6.3.1",
-  engine: "acc0b9dd43eb689cbd20c9470515d719db10d0b0"
+  engine: "bf0e5e8a04cada8225617067eaa03d041e2bba36"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -125,6 +125,19 @@ exports.Prisma.UserScalarFieldEnum = {
   displayName: 'displayName',
   avatarUrl: 'avatarUrl',
   bio: 'bio',
+  isVerified: 'isVerified',
+  isDeleted: 'isDeleted',
+  isEmailVerified: 'isEmailVerified',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  type: 'type',
+  userId: 'userId',
+  expiresIn: 'expiresIn',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -143,10 +156,13 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.TokenType = exports.$Enums.TokenType = {
+  EMAIL_VERIFY: 'EMAIL_VERIFY'
+};
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Token: 'Token'
 };
 
 /**
