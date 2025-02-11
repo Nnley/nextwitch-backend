@@ -28,7 +28,7 @@ export class SessionService {
       throw new NotFoundException('User not found')
     }
 
-    const keys = await this.redisService.get('*')
+    const keys = await this.redisService.keys('*')
 
     const userSessions = []
 
@@ -53,7 +53,7 @@ export class SessionService {
     const sessionId = req.session.id
 
     const sessionData = await this.redisService.get(
-      `${this.configService.getOrThrow<string>('SESSION_PREFIX')}:${sessionId}`
+      `${this.configService.getOrThrow<string>('SESSION_PREFIX')}${sessionId}`
     )
 
     const session = JSON.parse(sessionData)
@@ -124,7 +124,7 @@ export class SessionService {
       throw new ConflictException('Cannot remove current session')
     }
 
-    await this.redisService.del(`${this.configService.getOrThrow<string>('SESSION_PREFIX')}:${id}`)
+    await this.redisService.del(`${this.configService.getOrThrow<string>('SESSION_PREFIX')}${id}`)
 
     return true
   }

@@ -32,10 +32,11 @@ input LoginInput {
 }
 
 type Mutation {
-  clearSessionCookie(id: String!): Boolean!
+  clearSessionCookie: Boolean!
   createUser(data: CreateUserInput!): Boolean!
   login(data: LoginInput!): UserModel!
   logout: Boolean!
+  removeSession(id: String!): Boolean!
 }
 
 type Query {
@@ -51,7 +52,7 @@ type SessionMetadataModel {
 }
 
 type SessionModel {
-  createdAt: DateTime!
+  createdAt: String!
   id: String!
   metadata: SessionMetadataModel!
   userId: String!
