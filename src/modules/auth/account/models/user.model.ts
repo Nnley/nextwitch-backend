@@ -19,13 +19,16 @@ export class UserModel extends BaseType {
   isVerified: boolean
 
   @Field(() => Boolean)
-  isDeleted: boolean
-
-  @Field(() => Boolean)
   isEmailVerified: boolean
 
   @Field(() => Boolean)
   isTotpEnabled: boolean
+
+  @Field(() => Boolean)
+  isDeactivated: boolean
+
+  @Field(() => Date, { nullable: true })
+  deactivatedAt: Date | null
 
   @Field(() => String, { nullable: true })
   totpSecret: string | null
