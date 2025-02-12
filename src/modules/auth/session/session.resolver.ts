@@ -2,7 +2,7 @@ import { Authorization } from '@/src/shared/decorators/auth.decorator'
 import { UserAgent } from '@/src/shared/decorators/user-agent.decorator'
 import type { GqlContext } from '@/src/shared/types/gpl-context.types'
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { UserModel } from '../account/models/user.model'
+import { AuthModel } from '../account/models/auth.model'
 import { LoginInput } from './inputs/login.input'
 import { SessionModel } from './models/session.model'
 import { SessionService } from './session.service'
@@ -23,7 +23,7 @@ export class SessionResolver {
     return await this.sessionService.findCurrent(req)
   }
 
-  @Mutation(() => UserModel, { name: 'login' })
+  @Mutation(() => AuthModel, { name: 'login' })
   public async login(@Context() { req }: GqlContext, @Args('data') input: LoginInput, @UserAgent() userAgent: string) {
     return await this.sessionService.login(req, input, userAgent)
   }

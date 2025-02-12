@@ -24,6 +24,12 @@ export class UserModel extends BaseType {
   @Field(() => Boolean)
   isEmailVerified: boolean
 
+  @Field(() => Boolean)
+  isTotpEnabled: boolean
+
+  @Field(() => String, { nullable: true })
+  totpSecret: string | null
+
   @Field(() => String, { nullable: true })
   avatarUrl: string | null
 

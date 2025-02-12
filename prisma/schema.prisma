@@ -24,6 +24,8 @@ model User {
   isDeleted  Boolean @default(false) @map("is_deleted")
 
   isEmailVerified Boolean @default(false) @map("is_email_verified")
+  isTotpEnabled   Boolean @default(false) @map("is_totp_enabled")
+  totpSecret      String? @map("totp_secret")
 
   tokens Token[]
 

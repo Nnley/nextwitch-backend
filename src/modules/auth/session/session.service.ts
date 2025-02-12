@@ -12,6 +12,7 @@ import {
 import { ConfigService } from '@nestjs/config'
 import { verify } from 'argon2'
 import type { Request } from 'express'
+import { TOTP } from 'otpauth'
 import { VerificationService } from '../verification/verification.service'
 import { LoginInput } from './inputs/login.input'
 
@@ -68,7 +69,7 @@ export class SessionService {
   }
 
   public async login(req: Request, input: LoginInput, userAgent: string) {
-    const { login, password } = input
+    const { login, password, pin } = input
 
     const user = await this.prismaService.user.findFirst({
       where: {
@@ -92,9 +93,30 @@ export class SessionService {
       throw new BadRequestException('Email not verified. Please check your email for a verification link.')
     }
 
-    const metadata = getSessionMetadata(req, userAgent)
+    if (user.isTotpEnabled) {
+      if (!pin) {
+        return { message: 'Please enter your TOTP code' }
+      }
 
-    return saveSession(req, user, metadata)
+      const totp = new TOTP({
+        issuer: 'NexTwitch',
+        label: `${user.username}`,
+        algorithm: 'SHA1',
+        digits: 6,
+        secret: user.totpSecret,
+      })
+
+      const delta = totp.validate({ token: pin })
+
+      if (delta === null) {
+        throw new BadRequestException('Invalid code')
+      }
+    }
+
+    const metadata = getSessionMetadata(req, userAgent)
+    const savedUser = await saveSession(req, user, metadata)
+
+    return { user: savedUser, message: null }
   }
 
   public async logout(req: Request) {
