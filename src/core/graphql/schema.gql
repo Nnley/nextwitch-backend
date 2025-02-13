@@ -16,6 +16,12 @@ input ChangePasswordInput {
   oldPassword: String!
 }
 
+input ChangeProfileInfoInput {
+  bio: String!
+  displayName: String!
+  username: String!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -74,10 +80,13 @@ type Mutation {
 }
 
 type Query {
+  changeProfileAvatar(avatar: Upload!): Boolean!
+  changeProfileInfo(data: ChangeProfileInfoInput!): Boolean!
   findCurrentSession: SessionModel!
   findProfile: UserModel!
   findSessionsByUser: [SessionModel!]!
   generateTotpSecret: TotpModel!
+  removeProfileAvatar: Boolean!
 }
 
 input ResetPasswordInput {
@@ -107,6 +116,9 @@ input UpdatePasswordInput {
   password: String!
   token: String!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 type UserModel {
   avatarUrl: String

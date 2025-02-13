@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql'
 import { AccountModule } from '../modules/auth/account/account.module'
 import { DeactivateModule } from '../modules/auth/deactivate/deactivate.module'
 import { PasswordRecoveryModule } from '../modules/auth/password-recovery/password-recovery.module'
+import { ProfileModule } from '../modules/auth/profile/profile.module'
 import { SessionModule } from '../modules/auth/session/session.module'
 import { TotpModule } from '../modules/auth/totp/totp.module'
 import { VerificationModule } from '../modules/auth/verification/verification.module'
@@ -39,6 +40,7 @@ import { RedisModule } from './redis/redis.module'
     DeactivateModule,
     CronModule,
     StorageModule,
+    ProfileModule,
   ],
 })
 export class CoreModule {}
