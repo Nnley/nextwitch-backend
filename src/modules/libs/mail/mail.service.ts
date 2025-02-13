@@ -3,6 +3,7 @@ import { MailerService } from '@nestjs-modules/mailer'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { render } from '@react-email/components'
+import { AccountDeletionTemplate } from './templates/account-deletion.template'
 import { DeactivateTemplate } from './templates/deactivate.template'
 import { PasswordRecoveryTemplate } from './templates/password-recovery.template'
 import { VerificationTemplate } from './templates/verification.template'
@@ -32,6 +33,13 @@ export class MailService {
     const html = await render(DeactivateTemplate({ token, metadata }))
 
     return this.sendMail(email, 'Account deactivation', html)
+  }
+
+  public async sendAccountDeletion(email: string) {
+    const domain = this.configService.getOrThrow<string>('ALLOWED_ORIGIN')
+    const html = await render(AccountDeletionTemplate({ domain }))
+
+    return this.sendMail(email, 'Account deletion', html)
   }
 
   private sendMail(email: string, subject: string, html: string) {
