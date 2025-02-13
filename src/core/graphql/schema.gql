@@ -66,6 +66,8 @@ input LoginInput {
 type Mutation {
   changeEmail(data: ChangeEmailInput!): Boolean!
   changePassword(data: ChangePasswordInput!): Boolean!
+  changeProfileAvatar(avatar: Upload!): Boolean!
+  changeProfileInfo(data: ChangeProfileInfoInput!): Boolean!
   clearSessionCookie: Boolean!
   createUser(data: CreateUserInput!): Boolean!
   deactivateAccount(data: DeactivateAccountInput!): AuthModel!
@@ -73,6 +75,7 @@ type Mutation {
   enableTotp(data: EnableTotpInput!): Boolean!
   login(data: LoginInput!): AuthModel!
   logout: Boolean!
+  removeProfileAvatar: Boolean!
   removeSession(id: String!): Boolean!
   resetPassword(data: ResetPasswordInput!): Boolean!
   updatePassword(data: UpdatePasswordInput!): Boolean!
@@ -80,13 +83,10 @@ type Mutation {
 }
 
 type Query {
-  changeProfileAvatar(avatar: Upload!): Boolean!
-  changeProfileInfo(data: ChangeProfileInfoInput!): Boolean!
   findCurrentSession: SessionModel!
   findProfile: UserModel!
   findSessionsByUser: [SessionModel!]!
   generateTotpSecret: TotpModel!
-  removeProfileAvatar: Boolean!
 }
 
 input ResetPasswordInput {

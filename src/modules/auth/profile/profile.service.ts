@@ -78,7 +78,7 @@ export class ProfileService {
       },
     })
 
-    if (usernameExists || username === user.username) {
+    if (usernameExists && username !== user.username) {
       throw new ConflictException('Username already exists')
     }
 
