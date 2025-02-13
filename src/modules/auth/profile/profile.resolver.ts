@@ -1,16 +1,23 @@
 import type { User } from '@/prisma/generated'
 import { Authorization } from '@/src/shared/decorators/auth.decorator'
 import { Authorized } from '@/src/shared/decorators/authorized.decorator'
-import { Args, Mutation, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import * as GraphqlUpload from 'graphql-upload/GraphQLUpload.js'
 import * as Upload from 'graphql-upload/Upload.js'
 import { ChangeProfileInfoInput } from './inputs/change-profile-info.input'
 import { SocialLinkInput, SocialLinkOrderInput } from './inputs/social-link.input'
+import { SocialLinkModel } from './models/social-link.model'
 import { ProfileService } from './profile.service'
 
 @Resolver('Profile')
 export class ProfileResolver {
   constructor(private readonly profileService: ProfileService) {}
+
+  @Authorization()
+  @Query(() => [SocialLinkModel], { name: 'findSocialLinks' })
+  public async findSocialLinks(@Authorized() user: User) {
+    return this.profileService.findSocialLinks(user)
+  }
 
   @Authorization()
   @Mutation(() => Boolean, { name: 'changeProfileAvatar' })
@@ -43,8 +50,8 @@ export class ProfileResolver {
   }
 
   @Authorization()
-  @Mutation(() => Boolean, { name: 'updateSocialLinks' })
-  public async updateSocialLinks(@Args('id') id: string, @Args('data') input: SocialLinkInput) {
+  @Mutation(() => Boolean, { name: 'updateSocialLink' })
+  public async updateSocialLink(@Args('id') id: string, @Args('data') input: SocialLinkInput) {
     return this.profileService.updateSocialLink(id, input)
   }
 

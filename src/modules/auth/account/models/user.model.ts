@@ -1,8 +1,10 @@
+import type { User } from '@/prisma/generated'
 import { BaseType } from '@/src/core/graphql/base.type'
 import { Field, ObjectType } from '@nestjs/graphql'
+import { SocialLinkModel } from '../../profile/models/social-link.model'
 
 @ObjectType()
-export class UserModel extends BaseType {
+export class UserModel extends BaseType implements User {
   @Field(() => String)
   email: string
 
@@ -29,6 +31,9 @@ export class UserModel extends BaseType {
 
   @Field(() => Date, { nullable: true })
   deactivatedAt: Date | null
+
+  @Field(() => [SocialLinkModel])
+  socialLinks: SocialLinkModel[]
 
   @Field(() => String, { nullable: true })
   totpSecret: string | null
