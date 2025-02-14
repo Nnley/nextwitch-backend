@@ -275,7 +275,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 6.3.1
-   * Query Engine version: bf0e5e8a04cada8225617067eaa03d041e2bba36
+   * Query Engine version: acc0b9dd43eb689cbd20c9470515d719db10d0b0
    */
   export type PrismaVersion = {
     client: string
@@ -731,6 +731,10 @@ export namespace Prisma {
             args: Prisma.UserUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+          }
           upsert: {
             args: Prisma.UserUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$UserPayload>
@@ -800,6 +804,10 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.SocialLinkUpdateManyArgs<ExtArgs>
             result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SocialLinkUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialLinkPayload>[]
           }
           upsert: {
             args: Prisma.SocialLinkUpsertArgs<ExtArgs>
@@ -871,6 +879,10 @@ export namespace Prisma {
             args: Prisma.StreamUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.StreamUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamPayload>[]
+          }
           upsert: {
             args: Prisma.StreamUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$StreamPayload>
@@ -940,6 +952,10 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.TokenUpdateManyArgs<ExtArgs>
             result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TokenUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TokenPayload>[]
           }
           upsert: {
             args: Prisma.TokenUpsertArgs<ExtArgs>
@@ -1448,6 +1464,23 @@ export namespace Prisma {
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
+  export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    password?: boolean
+    username?: boolean
+    displayName?: boolean
+    avatarUrl?: boolean
+    bio?: boolean
+    isVerified?: boolean
+    isEmailVerified?: boolean
+    isTotpEnabled?: boolean
+    totpSecret?: boolean
+    isDeactivated?: boolean
+    deactivatedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
@@ -1475,6 +1508,7 @@ export namespace Prisma {
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1703,6 +1737,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends UserUpdateManyArgs>(args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Users and returns the data updated in the database.
+     * @param {UserUpdateManyAndReturnArgs} args - Arguments to update many Users.
+     * @example
+     * // Update many Users
+     * const user = await prisma.user.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserUpdateManyAndReturnArgs>(args: SelectSubset<T, UserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "updateManyAndReturn", ClientOptions>>
 
     /**
      * Create or update one User.
@@ -2199,6 +2263,36 @@ export namespace Prisma {
      * Filter which Users to update
      */
     where?: UserWhereInput
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * User updateManyAndReturn
+   */
+  export type UserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * The data used to update Users.
+     */
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
+    /**
+     * Filter which Users to update
+     */
+    where?: UserWhereInput
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number
   }
 
   /**
@@ -2261,6 +2355,10 @@ export namespace Prisma {
      * Filter which Users to delete
      */
     where?: UserWhereInput
+    /**
+     * Limit how many Users to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -2577,6 +2675,16 @@ export namespace Prisma {
     user?: boolean | SocialLink$userArgs<ExtArgs>
   }, ExtArgs["result"]["socialLink"]>
 
+  export type SocialLinkSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    url?: boolean
+    position?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | SocialLink$userArgs<ExtArgs>
+  }, ExtArgs["result"]["socialLink"]>
 
   export type SocialLinkSelectScalar = {
     id?: boolean
@@ -2593,6 +2701,9 @@ export namespace Prisma {
     user?: boolean | SocialLink$userArgs<ExtArgs>
   }
   export type SocialLinkIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | SocialLink$userArgs<ExtArgs>
+  }
+  export type SocialLinkIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | SocialLink$userArgs<ExtArgs>
   }
 
@@ -2813,6 +2924,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends SocialLinkUpdateManyArgs>(args: SelectSubset<T, SocialLinkUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SocialLinks and returns the data updated in the database.
+     * @param {SocialLinkUpdateManyAndReturnArgs} args - Arguments to update many SocialLinks.
+     * @example
+     * // Update many SocialLinks
+     * const socialLink = await prisma.socialLink.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SocialLinks and only return the `id`
+     * const socialLinkWithIdOnly = await prisma.socialLink.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SocialLinkUpdateManyAndReturnArgs>(args: SelectSubset<T, SocialLinkUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SocialLinkPayload<ExtArgs>, T, "updateManyAndReturn", ClientOptions>>
 
     /**
      * Create or update one SocialLink.
@@ -3303,6 +3444,40 @@ export namespace Prisma {
      * Filter which SocialLinks to update
      */
     where?: SocialLinkWhereInput
+    /**
+     * Limit how many SocialLinks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SocialLink updateManyAndReturn
+   */
+  export type SocialLinkUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialLink
+     */
+    select?: SocialLinkSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialLink
+     */
+    omit?: SocialLinkOmit<ExtArgs> | null
+    /**
+     * The data used to update SocialLinks.
+     */
+    data: XOR<SocialLinkUpdateManyMutationInput, SocialLinkUncheckedUpdateManyInput>
+    /**
+     * Filter which SocialLinks to update
+     */
+    where?: SocialLinkWhereInput
+    /**
+     * Limit how many SocialLinks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SocialLinkIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3365,6 +3540,10 @@ export namespace Prisma {
      * Filter which SocialLinks to delete
      */
     where?: SocialLinkWhereInput
+    /**
+     * Limit how many SocialLinks to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -3626,6 +3805,19 @@ export namespace Prisma {
     user?: boolean | Stream$userArgs<ExtArgs>
   }, ExtArgs["result"]["stream"]>
 
+  export type StreamSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    thumbnailUrl?: boolean
+    ingressId?: boolean
+    serverUrl?: boolean
+    streamKey?: boolean
+    isLive?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | Stream$userArgs<ExtArgs>
+  }, ExtArgs["result"]["stream"]>
 
   export type StreamSelectScalar = {
     id?: boolean
@@ -3645,6 +3837,9 @@ export namespace Prisma {
     user?: boolean | Stream$userArgs<ExtArgs>
   }
   export type StreamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | Stream$userArgs<ExtArgs>
+  }
+  export type StreamIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Stream$userArgs<ExtArgs>
   }
 
@@ -3868,6 +4063,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends StreamUpdateManyArgs>(args: SelectSubset<T, StreamUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Streams and returns the data updated in the database.
+     * @param {StreamUpdateManyAndReturnArgs} args - Arguments to update many Streams.
+     * @example
+     * // Update many Streams
+     * const stream = await prisma.stream.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Streams and only return the `id`
+     * const streamWithIdOnly = await prisma.stream.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StreamUpdateManyAndReturnArgs>(args: SelectSubset<T, StreamUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreamPayload<ExtArgs>, T, "updateManyAndReturn", ClientOptions>>
 
     /**
      * Create or update one Stream.
@@ -4361,6 +4586,40 @@ export namespace Prisma {
      * Filter which Streams to update
      */
     where?: StreamWhereInput
+    /**
+     * Limit how many Streams to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Stream updateManyAndReturn
+   */
+  export type StreamUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Stream
+     */
+    select?: StreamSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Stream
+     */
+    omit?: StreamOmit<ExtArgs> | null
+    /**
+     * The data used to update Streams.
+     */
+    data: XOR<StreamUpdateManyMutationInput, StreamUncheckedUpdateManyInput>
+    /**
+     * Filter which Streams to update
+     */
+    where?: StreamWhereInput
+    /**
+     * Limit how many Streams to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -4423,6 +4682,10 @@ export namespace Prisma {
      * Filter which Streams to delete
      */
     where?: StreamWhereInput
+    /**
+     * Limit how many Streams to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -4657,6 +4920,16 @@ export namespace Prisma {
     user?: boolean | Token$userArgs<ExtArgs>
   }, ExtArgs["result"]["token"]>
 
+  export type TokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    token?: boolean
+    type?: boolean
+    userId?: boolean
+    expiresIn?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | Token$userArgs<ExtArgs>
+  }, ExtArgs["result"]["token"]>
 
   export type TokenSelectScalar = {
     id?: boolean
@@ -4673,6 +4946,9 @@ export namespace Prisma {
     user?: boolean | Token$userArgs<ExtArgs>
   }
   export type TokenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | Token$userArgs<ExtArgs>
+  }
+  export type TokenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Token$userArgs<ExtArgs>
   }
 
@@ -4893,6 +5169,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends TokenUpdateManyArgs>(args: SelectSubset<T, TokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tokens and returns the data updated in the database.
+     * @param {TokenUpdateManyAndReturnArgs} args - Arguments to update many Tokens.
+     * @example
+     * // Update many Tokens
+     * const token = await prisma.token.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Tokens and only return the `id`
+     * const tokenWithIdOnly = await prisma.token.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TokenUpdateManyAndReturnArgs>(args: SelectSubset<T, TokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TokenPayload<ExtArgs>, T, "updateManyAndReturn", ClientOptions>>
 
     /**
      * Create or update one Token.
@@ -5383,6 +5689,40 @@ export namespace Prisma {
      * Filter which Tokens to update
      */
     where?: TokenWhereInput
+    /**
+     * Limit how many Tokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Token updateManyAndReturn
+   */
+  export type TokenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Token
+     */
+    select?: TokenSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Token
+     */
+    omit?: TokenOmit<ExtArgs> | null
+    /**
+     * The data used to update Tokens.
+     */
+    data: XOR<TokenUpdateManyMutationInput, TokenUncheckedUpdateManyInput>
+    /**
+     * Filter which Tokens to update
+     */
+    where?: TokenWhereInput
+    /**
+     * Limit how many Tokens to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -5445,6 +5785,10 @@ export namespace Prisma {
      * Filter which Tokens to delete
      */
     where?: TokenWhereInput
+    /**
+     * Limit how many Tokens to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -5692,7 +6036,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     tokens?: TokenListRelationFilter
     socialLinks?: SocialLinkListRelationFilter
-    stream?: XOR<StreamNullableRelationFilter, StreamWhereInput> | null
+    stream?: XOR<StreamNullableScalarRelationFilter, StreamWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -5737,7 +6081,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     tokens?: TokenListRelationFilter
     socialLinks?: SocialLinkListRelationFilter
-    stream?: XOR<StreamNullableRelationFilter, StreamWhereInput> | null
+    stream?: XOR<StreamNullableScalarRelationFilter, StreamWhereInput> | null
   }, "id" | "email" | "username">
 
   export type UserOrderByWithAggregationInput = {
@@ -5793,7 +6137,7 @@ export namespace Prisma {
     userId?: StringNullableFilter<"SocialLink"> | string | null
     createdAt?: DateTimeFilter<"SocialLink"> | Date | string
     updatedAt?: DateTimeFilter<"SocialLink"> | Date | string
-    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type SocialLinkOrderByWithRelationInput = {
@@ -5818,7 +6162,7 @@ export namespace Prisma {
     userId?: StringNullableFilter<"SocialLink"> | string | null
     createdAt?: DateTimeFilter<"SocialLink"> | Date | string
     updatedAt?: DateTimeFilter<"SocialLink"> | Date | string
-    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
   export type SocialLinkOrderByWithAggregationInput = {
@@ -5863,7 +6207,7 @@ export namespace Prisma {
     userId?: StringNullableFilter<"Stream"> | string | null
     createdAt?: DateTimeFilter<"Stream"> | Date | string
     updatedAt?: DateTimeFilter<"Stream"> | Date | string
-    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type StreamOrderByWithRelationInput = {
@@ -5894,7 +6238,7 @@ export namespace Prisma {
     isLive?: BoolFilter<"Stream"> | boolean
     createdAt?: DateTimeFilter<"Stream"> | Date | string
     updatedAt?: DateTimeFilter<"Stream"> | Date | string
-    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id" | "ingressId" | "userId">
 
   export type StreamOrderByWithAggregationInput = {
@@ -5940,7 +6284,7 @@ export namespace Prisma {
     expiresIn?: DateTimeFilter<"Token"> | Date | string
     createdAt?: DateTimeFilter<"Token"> | Date | string
     updatedAt?: DateTimeFilter<"Token"> | Date | string
-    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type TokenOrderByWithRelationInput = {
@@ -5965,7 +6309,7 @@ export namespace Prisma {
     expiresIn?: DateTimeFilter<"Token"> | Date | string
     createdAt?: DateTimeFilter<"Token"> | Date | string
     updatedAt?: DateTimeFilter<"Token"> | Date | string
-    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id" | "token">
 
   export type TokenOrderByWithAggregationInput = {
@@ -6429,7 +6773,7 @@ export namespace Prisma {
     none?: SocialLinkWhereInput
   }
 
-  export type StreamNullableRelationFilter = {
+  export type StreamNullableScalarRelationFilter = {
     is?: StreamWhereInput | null
     isNot?: StreamWhereInput | null
   }
@@ -6584,7 +6928,7 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type UserNullableRelationFilter = {
+  export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
   }
