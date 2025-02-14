@@ -40,6 +40,7 @@ export class StreamService {
             avatarUrl: true,
           },
         },
+        category: true,
       },
       orderBy: {
         isLive: 'desc',
@@ -78,6 +79,7 @@ export class StreamService {
             avatarUrl: true,
           },
         },
+        category: true,
       },
       skip,
       take: Math.min(100, total),
@@ -95,6 +97,11 @@ export class StreamService {
       },
       data: {
         title,
+        category: {
+          connect: {
+            id: categoryId,
+          },
+        },
       },
     })
 
