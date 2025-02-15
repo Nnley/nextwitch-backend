@@ -10,6 +10,20 @@ export class CategoryService {
       orderBy: {
         createdAt: 'desc',
       },
+      include: {
+        streams: {
+          include: {
+            user: {
+              select: {
+                username: true,
+                avatarUrl: true,
+                displayName: true,
+              },
+            },
+            category: true,
+          },
+        },
+      },
     })
   }
 
@@ -23,6 +37,20 @@ export class CategoryService {
     const skip = total <= 7 ? 0 : Math.floor(Math.random() * total)
 
     const categories = await this.prismaService.category.findMany({
+      include: {
+        streams: {
+          include: {
+            user: {
+              select: {
+                username: true,
+                avatarUrl: true,
+                displayName: true,
+              },
+            },
+            category: true,
+          },
+        },
+      },
       skip,
       take: Math.min(100, total),
     })
@@ -32,17 +60,13 @@ export class CategoryService {
 
   public async findBySlug(slug: string) {
     const category = await this.prismaService.category.findUnique({
-      where: {
-        slug,
-      },
+      where: { slug },
       include: {
         streams: {
           select: {
             title: true,
             isLive: true,
             thumbnailUrl: true,
-          },
-          include: {
             user: {
               select: {
                 username: true,

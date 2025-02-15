@@ -7,6 +7,17 @@ type AuthModel {
   user: UserModel
 }
 
+type CategoryModel {
+  createdAt: DateTime!
+  description: String!
+  id: String!
+  slug: String!
+  streams: [StreamModel!]!
+  thumbnailUrl: String
+  title: String!
+  updatedAt: DateTime!
+}
+
 input ChangeEmailInput {
   email: String!
 }
@@ -106,9 +117,12 @@ type Mutation {
 }
 
 type Query {
+  findAllCategories: [CategoryModel!]!
   findAllStreams(filters: StreamFiltersInput!): [StreamModel!]!
+  findCategoriesBySlug(slug: String!): CategoryModel!
   findCurrentSession: SessionModel!
   findProfile: UserModel!
+  findRandomCategories: [CategoryModel!]!
   findRandomStreams: [StreamModel!]!
   findSessionsByUser: [SessionModel!]!
   findSocialLinks: [SocialLinkModel!]!
@@ -159,6 +173,8 @@ input StreamFiltersInput {
 }
 
 type StreamModel {
+  category: CategoryModel!
+  categoryId: String!
   createdAt: DateTime!
   id: String!
   ingressId: String
