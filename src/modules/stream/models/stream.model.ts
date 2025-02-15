@@ -3,6 +3,7 @@ import { BaseType } from '@/src/core/graphql/base.type'
 import { Field, ObjectType } from '@nestjs/graphql'
 import { UserModel } from '../../auth/account/models/user.model'
 import { CategoryModel } from '../../category/models/category.model'
+import { ChatMessageModel } from '../../chat/models/chat-message.model'
 
 @ObjectType()
 export class StreamModel extends BaseType implements Stream {
@@ -22,6 +23,15 @@ export class StreamModel extends BaseType implements Stream {
   streamKey: string
 
   @Field(() => Boolean)
+  isChatEnabled: boolean
+
+  @Field(() => Boolean)
+  isChatFollowersOnly: boolean
+
+  @Field(() => Boolean)
+  isChatPremiumFollowersOnly: boolean
+
+  @Field(() => Boolean)
   isLive: boolean
 
   @Field(() => UserModel)
@@ -35,4 +45,7 @@ export class StreamModel extends BaseType implements Stream {
 
   @Field(() => String)
   categoryId: string
+
+  @Field(() => [ChatMessageModel])
+  chatMessages: ChatMessageModel[]
 }
