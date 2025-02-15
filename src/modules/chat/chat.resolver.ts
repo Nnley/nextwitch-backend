@@ -24,7 +24,7 @@ export class ChatResolver {
   @Authorization()
   @Mutation(() => ChatMessageModel, { name: 'sendChatMessage' })
   public async sendMessage(@Authorized('id') userId: string, @Args('data') input: SendMessageInput) {
-    const message = this.chatService.sendMessage(userId, input)
+    const message = await this.chatService.sendMessage(userId, input)
 
     this.pubSub.publish('CHAT_MESSAGE_ADDED', { chatMessageAdded: message })
 
