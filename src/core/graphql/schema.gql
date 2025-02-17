@@ -269,6 +269,7 @@ type UserModel {
   password: String!
   socialLinks: [SocialLinkModel!]!
   stream: StreamModel!
+  telegramId: String
   totpSecret: String
   updatedAt: DateTime!
   username: String!

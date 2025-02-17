@@ -47,11 +47,14 @@ export class UserModel extends BaseType implements User {
   stream: StreamModel
 
   @Field(() => String, { nullable: true })
-  totpSecret: string | null
+  totpSecret: string
 
   @Field(() => String, { nullable: true })
-  avatarUrl: string | null
+  avatarUrl: string
 
   @Field(() => String, { nullable: true })
-  bio: string | null
+  bio: string
+
+  @Field(() => String, { nullable: true })
+  telegramId: string
 }
