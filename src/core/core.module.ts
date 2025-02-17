@@ -10,6 +10,7 @@ import { SessionModule } from '../modules/auth/session/session.module'
 import { TotpModule } from '../modules/auth/totp/totp.module'
 import { VerificationModule } from '../modules/auth/verification/verification.module'
 import { CategoryModule } from '../modules/category/category.module'
+import { ChannelModule } from '../modules/channel/channel.module'
 import { ChatModule } from '../modules/chat/chat.module'
 import { CronModule } from '../modules/cron/cron.module'
 import { FollowModule } from '../modules/follow/follow.module'
@@ -60,6 +61,7 @@ import { RedisModule } from './redis/redis.module'
     CategoryModule,
     ChatModule,
     FollowModule,
+    ChannelModule,
   ],
 })
 export class CoreModule {}

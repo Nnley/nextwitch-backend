@@ -150,14 +150,17 @@ type Mutation {
 type Query {
   findAllCategories: [CategoryModel!]!
   findAllStreams(filters: StreamFiltersInput!): [StreamModel!]!
+  findByUsername(username: String!): UserModel!
   findCategoriesBySlug(slug: String!): CategoryModel!
   findChatMessagesByStreamId(streamId: String!): [ChatMessageModel!]!
   findCurrentSession: SessionModel!
+  findFollowersCountByChannel(channelId: String!): Float!
   findMyFollowers: [FollowModel!]!
   findMyFollowings: [FollowModel!]!
   findProfile: UserModel!
   findRandomCategories: [CategoryModel!]!
   findRandomStreams: [StreamModel!]!
+  findRecommendedChannels: [UserModel!]!
   findSessionsByUser: [SessionModel!]!
   findSocialLinks: [SocialLinkModel!]!
   generateTotpSecret: TotpModel!
