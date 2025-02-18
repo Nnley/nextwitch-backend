@@ -1,6 +1,7 @@
 import type { User } from '@/prisma/generated'
 import { BaseType } from '@/src/core/graphql/base.type'
 import { FollowModel } from '@/src/modules/follow/models/follow.model'
+import { NotificationSettingsModel } from '@/src/modules/notification/models/notification-settings.model'
 import { StreamModel } from '@/src/modules/stream/models/stream.model'
 import { Field, ObjectType } from '@nestjs/graphql'
 import { SocialLinkModel } from '../../profile/models/social-link.model'
@@ -45,6 +46,12 @@ export class UserModel extends BaseType implements User {
 
   @Field(() => StreamModel)
   stream: StreamModel
+
+  @Field(() => [NotificationSettingsModel])
+  notifications: NotificationSettingsModel[]
+
+  @Field(() => NotificationSettingsModel)
+  notificationSettings: NotificationSettingsModel
 
   @Field(() => String, { nullable: true })
   totpSecret: string
