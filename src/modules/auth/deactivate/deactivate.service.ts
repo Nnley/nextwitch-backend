@@ -91,7 +91,7 @@ export class DeactivateService {
     await this.mailService.sendDeactivateToken(user.email, token.token, metadata)
 
     if (token.user.notificationSettings.telegramNotifications && token.user.telegramId) {
-      await this.telegramService.sendPasswordResetToken(token.user.telegramId, token.token, metadata)
+      await this.telegramService.sendDeactivateToken(token.user.telegramId, token.token, metadata)
     }
 
     return true

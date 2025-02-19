@@ -27,14 +27,26 @@ export class CronService {
           lte: sevenDaysAgo,
         },
       },
+      include: {
+        notificationSettings: true,
+        stream: true,
+      },
     })
 
     for (const account of deactivatedAccounts) {
       await this.mailService.sendAccountDeletion(account.email)
 
-      await this.telegramService.sendAccountDeletion(account.telegramId)
+      if (account.notificationSettings.telegramNotifications && account.telegramId) {
+        await this.telegramService.sendAccountDeletion(account.telegramId)
+      }
 
-      this.storageService.remove(account.avatarUrl)
+      if (account.avatarUrl) {
+        this.storageService.remove(account.avatarUrl)
+      }
+
+      if (account.stream.thumbnailUrl) {
+        this.storageService.remove(account.stream.thumbnailUrl)
+      }
     }
 
     await this.prismaService.user.deleteMany({
