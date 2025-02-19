@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config'
 import { verify } from 'argon2'
 import { Request } from 'express'
 import { MailService } from '../../libs/mail/mail.service'
+import { TelegramService } from '../../libs/telegram/telegram.service'
 import { DeactivateAccountInput } from './inputs/deactivate-account.input'
 
 @Injectable()
@@ -15,7 +16,8 @@ export class DeactivateService {
   public constructor(
     private readonly prismaService: PrismaService,
     private readonly mailService: MailService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly telegramService: TelegramService
   ) {}
 
   public async deactivate(req: Request, input: DeactivateAccountInput, user: User, userAgent: string) {
@@ -87,6 +89,10 @@ export class DeactivateService {
     const metadata = getSessionMetadata(req, userAgent)
 
     await this.mailService.sendDeactivateToken(user.email, token.token, metadata)
+
+    if (token.user.notificationSettings.telegramNotifications && token.user.telegramId) {
+      await this.telegramService.sendPasswordResetToken(token.user.telegramId, token.token, metadata)
+    }
 
     return true
   }
