@@ -1,8 +1,11 @@
+import { TokenType } from '@/prisma/generated'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { Ctx, Start, Update } from 'nestjs-telegraf'
-import { Telegraf } from 'telegraf'
+import { Action, Command, Ctx, Start, Update } from 'nestjs-telegraf'
+import { Context, Telegraf } from 'telegraf'
+import { BUTTONS } from './telegram.buttons'
+import { MESSAGES } from './telegram.messages'
 
 @Update()
 @Injectable()
@@ -19,8 +22,117 @@ export class TelegramService extends Telegraf {
 
   @Start()
   public async onStart(@Ctx() ctx: any) {
-    const username = ctx.message.from.username
+    const chatId = ctx.message.from.id.toString()
+    const token = ctx.message.text.split(' ')[1]
 
-    await ctx.replyWithHTML(`qq ${username}`)
+    if (token) {
+      const authToken = await this.prismaService.token.findUnique({
+        where: {
+          token,
+          type: TokenType.TELEGRAM_AUTH,
+        },
+      })
+
+      const hasExpired = new Date(authToken.expiresIn) < new Date()
+
+      if (!authToken) {
+        ctx.reply(MESSAGES.invalidToken)
+        return
+      }
+
+      if (hasExpired) {
+        ctx.reply(MESSAGES.invalidToken)
+        return
+      }
+
+      await this.connectTelegram(authToken.userId, chatId)
+
+      await this.prismaService.token.delete({
+        where: {
+          id: authToken.id,
+        },
+      })
+
+      await ctx.replyWithHTML(MESSAGES.authSuccess, BUTTONS.authSuccess)
+    } else {
+      const user = await this.findUserByChatId(chatId)
+
+      if (user) {
+        const followersCount = await this.prismaService.follow.count({
+          where: {
+            followingId: user.id,
+          },
+        })
+        await ctx.replyWithHTML(MESSAGES.profile(user, followersCount), BUTTONS.profile)
+      } else {
+        await ctx.replyWithHTML(MESSAGES.welcome, BUTTONS.profile)
+      }
+    }
+  }
+
+  @Command('me')
+  @Action('me')
+  public async onMe(@Ctx() ctx: Context) {
+    const chatId = ctx.message.from.id.toString()
+
+    const user = await this.findUserByChatId(chatId)
+
+    const followersCount = await this.prismaService.follow.count({
+      where: {
+        followingId: user.id,
+      },
+    })
+
+    await ctx.replyWithHTML(MESSAGES.profile(user, followersCount), BUTTONS.profile)
+  }
+
+  @Command('follows')
+  @Action('follows')
+  public async onFollow(@Ctx() ctx: Context) {
+    const chatId = ctx.message.from.id.toString()
+
+    const user = await this.findUserByChatId(chatId)
+    const follows = await this.prismaService.follow.findMany({
+      where: {
+        followerId: user.id,
+      },
+      include: {
+        following: true,
+      },
+    })
+
+    if (user && follows.length) {
+      const followList = follows.map(follow => MESSAGES.follows(follow.following)).join('\n')
+      const message = `<b> Каналы на которые вы подписаны:</b>\n\n${followList}`
+
+      await ctx.replyWithHTML(message)
+    } else {
+      await ctx.replyWithHTML('<b>Вы не подписаны ни на один канал.</b>')
+    }
+  }
+
+  private async findUserByChatId(chatId: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        telegramId: chatId,
+      },
+      include: {
+        followers: true,
+        followings: true,
+      },
+    })
+
+    return user
+  }
+
+  private async connectTelegram(userId: string, chatId: string) {
+    await this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        telegramId: chatId,
+      },
+    })
   }
 }
