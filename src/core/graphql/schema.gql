@@ -223,6 +223,7 @@ type Query {
   findFollowersCountByChannel(channelId: String!): Float!
   findMyFollowers: [FollowModel!]!
   findMyFollowings: [FollowModel!]!
+  findMySponsors: [SubscriptionModel!]!
   findMySponsorshipPlans: [PlanModel!]!
   findMyTransactions: [TransactionModel!]!
   findNotificationsByUser: [NotificationModel!]!
@@ -233,6 +234,7 @@ type Query {
   findRecommendedChannels: [UserModel!]!
   findSessionsByUser: [SessionModel!]!
   findSocialLinks: [SocialLinkModel!]!
+  findSponsorsByChannel(channelId: String!): [SubscriptionModel!]!
   generateTotpSecret: TotpModel!
 }
 
@@ -306,6 +308,18 @@ type StreamModel {
 
 type Subscription {
   chatMessageAdded(streamId: String!): ChatMessageModel!
+}
+
+type SubscriptionModel {
+  channel: UserModel!
+  channelId: String!
+  createdAt: DateTime!
+  expiresAt: DateTime!
+  id: String!
+  planId: String!
+  updatedAt: DateTime!
+  user: UserModel!
+  userId: String!
 }
 
 type TotpModel {
