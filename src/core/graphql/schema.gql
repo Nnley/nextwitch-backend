@@ -65,6 +65,12 @@ type ChatMessageModel {
   userId: String!
 }
 
+input CreatePlanInput {
+  description: String
+  price: Float!
+  title: String!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -125,6 +131,10 @@ input LoginInput {
   pin: String
 }
 
+type MakePaymentModel {
+  url: String!
+}
+
 type Mutation {
   changeChatSettings(data: ChangeChatSettingsInput!): Boolean!
   changeEmail(data: ChangeEmailInput!): Boolean!
@@ -137,14 +147,17 @@ type Mutation {
   clearSessionCookie: Boolean!
   createIngress(ingressType: Float!): Boolean!
   createSocialLink(data: SocialLinkInput!): Boolean!
+  createSponsorshipPlan(data: CreatePlanInput!): Boolean!
   createUser(data: CreateUserInput!): Boolean!
   deactivateAccount(data: DeactivateAccountInput!): AuthModel!
+  deleteSponsorshipPlan(planId: String!): Boolean!
   disableTotp: Boolean!
   enableTotp(data: EnableTotpInput!): Boolean!
   followChannel(channelId: String!): Boolean!
   generateStreamToken(data: GenerateStreamTokenInput!): GenerateStreamTokenModel!
   login(data: LoginInput!): AuthModel!
   logout: Boolean!
+  makePayment(planId: String!): MakePaymentModel!
   removeProfileAvatar: Boolean!
   removeSession(id: String!): Boolean!
   removeSocialLink(id: String!): Boolean!
@@ -187,6 +200,19 @@ enum NotificationType {
   VERIFIED_CHANNEL
 }
 
+type PlanModel {
+  channel: UserModel!
+  channelId: String!
+  createdAt: DateTime!
+  description: String
+  id: String!
+  price: Float!
+  stripePlanId: String!
+  stripeProductId: String!
+  title: String!
+  updatedAt: DateTime!
+}
+
 type Query {
   findAllCategories: [CategoryModel!]!
   findAllStreams(filters: StreamFiltersInput!): [StreamModel!]!
@@ -197,6 +223,8 @@ type Query {
   findFollowersCountByChannel(channelId: String!): Float!
   findMyFollowers: [FollowModel!]!
   findMyFollowings: [FollowModel!]!
+  findMySponsorshipPlans: [PlanModel!]!
+  findMyTransactions: [TransactionModel!]!
   findNotificationsByUser: [NotificationModel!]!
   findNotificationsUnreadCount: Float!
   findProfile: UserModel!
@@ -283,6 +311,25 @@ type Subscription {
 type TotpModel {
   qrcodeUrl: String!
   secret: String!
+}
+
+type TransactionModel {
+  amount: Float!
+  createdAt: DateTime!
+  currency: String!
+  id: String!
+  status: TransactionStatus!
+  stripeSubscriptionId: String!
+  updatedAt: DateTime!
+  user: UserModel!
+  userId: String!
+}
+
+enum TransactionStatus {
+  EXPIRED
+  FAILED
+  PENDING
+  SUCCEEDED
 }
 
 input UpdatePasswordInput {

@@ -1,4 +1,4 @@
-import { TokenType, User } from '@/prisma/generated'
+import { SponsorshipPlan, TokenType, User } from '@/prisma/generated'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 import type { SessionMetadata } from '@/src/shared/types/session-metadata.types'
 import { Injectable } from '@nestjs/common'
@@ -134,6 +134,10 @@ export class TelegramService extends Telegraf {
     await this.telegram.sendMessage(chatId, MESSAGES.newFollowing(follower, user.followers.length), {
       parse_mode: 'HTML',
     })
+  }
+
+  public async sendNewSponsorship(chatId: string, plan: SponsorshipPlan, sponsor: User) {
+    await this.telegram.sendMessage(chatId, MESSAGES.newSponsorship(plan, sponsor), { parse_mode: 'HTML' })
   }
 
   private async findUserByChatId(chatId: string) {

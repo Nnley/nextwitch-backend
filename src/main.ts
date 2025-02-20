@@ -11,7 +11,7 @@ import { ms, type StringValue } from './shared/utils/ms.utils'
 import { parseBoolean } from './shared/utils/parse-boolean.utils'
 
 async function bootstrap() {
-  const app = await NestFactory.create(CoreModule)
+  const app = await NestFactory.create(CoreModule, { rawBody: true })
 
   const config = app.get(ConfigService)
   const redis = app.get(RedisService)
