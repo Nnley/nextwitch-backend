@@ -93,6 +93,19 @@ export class NotificationService {
     return notification
   }
 
+  public async createVerifyChannel(userId: string) {
+    const notification = await this.prismaService.notification.create({
+      data: {
+        message: `<b className='font-medium'>Поздравляем!</b>
+			  <p>Ваш канал верифицирован, и теперь рядом с вашим каналом будет галочка.</p>`,
+        type: NotificationType.VERIFIED_CHANNEL,
+        userId,
+      },
+    })
+
+    return notification
+  }
+
   public async changeSettings(user: User, input: ChangeNotificationsSettingsInput) {
     const { siteNotifications, telegramNotifications } = input
 

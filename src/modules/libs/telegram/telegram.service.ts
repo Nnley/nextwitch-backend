@@ -140,6 +140,12 @@ export class TelegramService extends Telegraf {
     await this.telegram.sendMessage(chatId, MESSAGES.newSponsorship(plan, sponsor), { parse_mode: 'HTML' })
   }
 
+  public async sendVerifyChannel(chatId: string) {
+    await this.telegram.sendMessage(chatId, MESSAGES.verifyChannel, {
+      parse_mode: 'HTML',
+    })
+  }
+
   private async findUserByChatId(chatId: string) {
     const user = await this.prismaService.user.findUnique({
       where: {

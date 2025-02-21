@@ -7,6 +7,7 @@ import { AccountDeletionTemplate } from './templates/account-deletion.template'
 import { DeactivateTemplate } from './templates/deactivate.template'
 import { PasswordRecoveryTemplate } from './templates/password-recovery.template'
 import { VerificationTemplate } from './templates/verification.template'
+import { VerifyChannelTemplate } from './templates/verify-channel.template'
 
 @Injectable()
 export class MailService {
@@ -40,6 +41,12 @@ export class MailService {
     const html = await render(AccountDeletionTemplate({ domain }))
 
     return this.sendMail(email, 'Account deletion', html)
+  }
+
+  public async sendVerifyChannel(email: string) {
+    const html = await render(VerifyChannelTemplate())
+
+    return this.sendMail(email, 'Ваш канал верифицирован', html)
   }
 
   private sendMail(email: string, subject: string, html: string) {
